@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="style.css" rel="stylesheet">
+    <script src="script.js" defer></script>
+    <title>Odin Library</title>
+</head>
+<body>
+    <div class="header">
+        <h2>Library</h2>
+    </div>
+
+    <div class="main">
+        
+        <div id="add-book">
+            <svg class="add-book-button" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus-circle</title><path d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
+            <p>Add a book</p>
+        </div>
+
+        <div class="modal-container">
+            <div id="add-book-modal">
+                <h3>Add Book</h3>
+                <form id="new-book">
+                    <div class="form-item">
+                        <label for="Title">Title</label>
+                        <input type="text" type="submit" id="title" name="title" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="Author">Author</label>
+                        <input type="text" type="submit" id="author" name="author" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="pages">Pages</label>
+                        <input type="number" type="submit" id="pages" name="pages" required>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="book-card">
+            <h3 class="title">Test</h3>
+            <h4 class="author">Your Boy</h4>
+            <p>256 pages</p>
+            <button>Read ?</button>
+        </div>
+        <div class="book-card">
+        </div>
+    </div>
+
+</body>
+</html>

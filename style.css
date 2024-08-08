@@ -1,0 +1,61 @@
+:root {
+    --main-color: lightblue;
+    --secondary-color: rgb(255, 167, 157);
+    --tertiary-color: rgb(228, 228, 228);
+}
+
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+.header {
+    display: flex;
+    background-color: var(--tertiary-color);
+    align-items: center;
+    justify-content: center;
+    height: 8vh;
+    margin-bottom: 40px;
+}
+
+.main {
+    display: grid;
+    grid-template: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+    margin: 0 100px 25px 100px;
+}
+
+#add-book {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 10px;
+    height: 100px;
+    width: 200px;
+}
+
+#add-book * {
+    align-self: center;
+    font-size: 1.5rem;
+}
+
+.book-card {
+    height: 200px;
+    width: 200px;
+    background-color: var(--secondary-color);
+}
+
+#add-book-modal {
+    display: flex;
+    align-items: left;
+    justify-content: center;
+    padding: 10px;
+    background-color: var(--main-color);
+    width: 250px;
+    height: 400px;
+    position: relative;
+}
+
+.form-item {
+    padding: 10px;
+    align-items: left;
+}
