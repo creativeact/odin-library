@@ -22,23 +22,9 @@ button {
     display: flex;
     background-color: var(--tertiary-color);
     align-items: center;
-    justify-content: center;
+    justify-content: space-around;
     height: 8vh;
     margin-bottom: 40px;
-}
-
-.main {
-    display: grid;
-    grid-template: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 40px;
-    margin: 0 100px 25px 100px;
-    position: relative;
-}
-
-.book-card {
-    height: 200px;
-    width: 200px;
-    background-color: var(--secondary-color);
 }
 
 .add-book {
@@ -54,6 +40,23 @@ button {
     font-size: 1.5rem;
 }
 
+.main {
+    margin: 0 100px 25px 100px;
+    position: relative;
+}
+
+.book-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.book-card {
+    height: 200px;
+    width: 200px;
+    background-color: var(--secondary-color);
+    padding: 20px;
+}
 
 .modal-header {
     grid-row: 1;

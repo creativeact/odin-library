@@ -10,16 +10,15 @@
 <body>
     <div class="header">
         <h2>Library</h2>
-    </div>
-
-    <div class="main">
-        
         <div class="add-book">
             <button class="add-book-button">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus-circle</title><path d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
             </button>
             <p>Add Book</p>
         </div>
+    </div>
+
+    <div class="main">
 
         <div class="add-book-modal">
             <div class="modal-container">
@@ -29,7 +28,7 @@
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>
                     </button>
                 </div>
-                <form class="new-book-form">
+                <form class="add-book-form">
                     <div class="form-item">
                         <label for="Title">Title</label>
                         <input type="text" id="title" name="title" required>
@@ -47,13 +46,14 @@
             </div>
         </div>
 
-        <div class="book-card">
-            <h3 class="title">Test</h3>
-            <h4 class="author">Your Boy</h4>
-            <p>256 pages</p>
-            <button>Read ?</button>
-        </div>
-        <div class="book-card">
+        <div class="book-container">
+            <div class="book-card">
+                <h3 class="title">Test</h3>
+                <h4 class="author">Your Boy</h4>
+                <p class="pages">256 pages</p>
+            </div>
+            <div class="book-card">
+            </div>
         </div>
     </div>
 
