@@ -9,6 +9,15 @@
     margin: 0px;
 }
 
+svg {
+    height: 30px;
+    width: 30px;
+}
+
+button {
+    cursor: pointer;
+}
+
 .header {
     display: flex;
     background-color: var(--tertiary-color);
@@ -45,11 +54,22 @@
     font-size: 1.5rem;
 }
 
-.add-book-button:hover {
-    cursor: pointer;
+
+.modal-header {
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    font-size: 1rem;
+    gap: 15px;
+    align-items: center;
 }
 
-.add-book-modal {
+.modal-header > svg {
+    grid-column: 2;
+    justify-self: end;
+}
+
+.modal-container {
     display: none;
     position: fixed;
     z-index: 1;
@@ -57,13 +77,15 @@
     top: 50%;
     transform: translate(-50%, -50%);
     overflow: auto;
-    padding: 10px;
+    padding: 20px;
     background-color: var(--main-color);
     width: 250px;
-    height: 400px;
+    height: 300px;
 }
 
 .form-item {
     padding: 10px;
     align-items: left;
+    width: 150px;
+    grid-column: 2;
 }

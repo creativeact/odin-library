@@ -18,25 +18,33 @@
             <button class="add-book-button">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>plus-circle</title><path d="M17,13H13V17H11V13H7V11H11V7H13V11H17M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" /></svg>
             </button>
-            <p>Add a book</p>
+            <p>Add Book</p>
         </div>
 
         <div class="add-book-modal">
-            <form id="new-book-form">
-                <div class="form-item">
-                    <label for="Title">Title</label>
-                    <input type="text" type="submit" id="title" name="title" required>
+            <div class="modal-container">
+                <div class="modal-header">
+                    <h2>Add Book</h2>
+                    <button class="close-modal-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>close-thick</title><path d="M20 6.91L17.09 4L12 9.09L6.91 4L4 6.91L9.09 12L4 17.09L6.91 20L12 14.91L17.09 20L20 17.09L14.91 12L20 6.91Z" /></svg>
+                    </button>
                 </div>
-                <div class="form-item">
-                    <label for="Author">Author</label>
-                    <input type="text" type="submit" id="author" name="author" required>
-                </div>
-                <div class="form-item">
-                    <label for="pages">Pages</label>
-                    <input type="number" type="submit" id="pages" name="pages" required>
-                </div>
-                <button class="btn submit-new-book">Submit New Book</button>
-            </form>
+                <form class="new-book-form">
+                    <div class="form-item">
+                        <label for="Title">Title</label>
+                        <input type="text" id="title" name="title" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="Author">Author</label>
+                        <input type="text" id="author" name="author" required>
+                    </div>
+                    <div class="form-item">
+                        <label for="pages">Pages</label>
+                        <input type="number" id="pages" name="pages" required>
+                    </div>
+                    <button type="submit" class="submit-book-button">Submit New Book</button>
+                </form>
+            </div>
         </div>
 
         <div class="book-card">
