@@ -69,6 +69,20 @@ addBookForm.addEventListener('submit', function(event) {
     closeModal();
 });
 
+// Function to create remove book icon
+function renderTrashIcon() {
+    const iconSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const iconPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+
+    iconSVG.setAttribute('viewBox', '0 0 24 24');
+    iconSVG.classList.add('trash-icon');
+
+    iconPath.setAttribute('d', 'M9,3V4H4V6H5V19A2,2 0 0,0 7,21H17A2,2 0 0,0 19,19V6H20V4H15V3H9M7,6H17V19H7V6M9,8V17H11V8H9M13,8V17H15V8H13Z');
+
+    iconSVG.appendChild(iconPath);
+    return iconSVG;
+};
+
 // Function to create a new book card
 function createBookCard(book) {
 
@@ -112,33 +126,40 @@ function createBookCard(book) {
      newDiv.appendChild(readStatusContainer);
 
 
-    // Add remove book button
+    // Create remove book button
     const removeBookButton = document.createElement('button');
     removeBookButton.classList.add('remove-book-button');
-    removeBookButton.textContent = 'Remove';
     removeBookButton.setAttribute('data-id', book.id);
+
+    // Render the trash icon and append it to the remove book button
+    const trashIcon = renderTrashIcon();
+    removeBookButton.appendChild(trashIcon);
+
+    // Append remove book button with icon
     newDiv.appendChild(removeBookButton);
 
     // Append new book card to book container
     bookContainer.appendChild(newDiv);
 };
 
-// Display existing books in myLibrary
+// Display books in myLibrary
 myLibrary.forEach(book => createBookCard(book));
 
-// Handle delete button clicks
+// Handle remove book button clicks
 bookContainer.addEventListener('click', function(event) {
-    if (event.target.classList.contains('remove-book-button')) {
 
+    // Handle clicks that target child elements inside .remove-book-button
+    const button = event.target.closest('.remove-book-button');
+
+    if (button) {
         // Retrieve the data-id associated with the button and convert to Int
-        const bookId = parseInt(event.target.getAttribute('data-id'), 10);
+        const bookId = parseInt(button.getAttribute('data-id'), 10);
 
         // Call removeBook
         removeBook(bookId);
     }
 });
 
-// Remove book
 function removeBook(bookId) {
     
     // Find the index of the book within the myLibrary array
@@ -156,3 +177,4 @@ function removeBook(bookId) {
             bookContainer.removeChild(bookCard);
         } 
 };
+
