@@ -4,7 +4,6 @@ const addBookModal = document.querySelector('.modal-container');
 const addBookForm = document.querySelector('.add-book-form');
 const submitBookButton = document.querySelector('.submit-book-button');
 const closeModalButton = document.querySelector('.close-modal-button');
-const removeBookButton = document.querySelector('.remove-book-button');
 
 // Initialize myLibrary Array
 const myLibrary = [
@@ -173,16 +172,14 @@ function createBookCard(book) {
 myLibrary.forEach(book => createBookCard(book));
 
 // Handle remove book button clicks
-bookContainer.addEventListener('click', function(event) {
+document.addEventListener('click', function(event) {
 
     // Handle clicks that target child elements inside .remove-book-button
-    const button = event.target.closest('.remove-book-button');
+    const removeButton = event.target.closest('.remove-book-button');
 
-    if (button) {
+    if (removeButton) {
         // Retrieve the data-id associated with the button and convert to Int
-        const bookId = parseInt(button.getAttribute('data-id'), 10);
-
-        // Call removeBook
+        const bookId = parseInt(removeButton.getAttribute('data-id'), 10);
         removeBook(bookId);
     }
 });
@@ -199,22 +196,23 @@ function removeBook(bookId) {
     bookCounter--;
 
     // Remove book card
-    const bookCard = document.querySelector(`.book-card button[data-id='${bookId}']`).parentElement;
+    const bookCard = document.querySelector(`.remove-book-button[data-id='${bookId}']`).parentElement.parentElement;
         if (bookCard) {
             bookContainer.removeChild(bookCard);
         } 
 };
 
 // Handle read status slider clicks
-const readStatusSliders = document.querySelectorAll('.read-status');
+document.addEventListener('change', function(event) {
+    const readSlider = event.target.matches('.read-status');
 
-readStatusSliders.forEach(slider => {
-    slider.addEventListener('change', function(event) {
+    if (readSlider) {
         const bookId = parseInt(event.target.getAttribute('data-id'), 10);
         changeReadStatus(bookId);
-    });
+    }
 });
 
+// Change read status and display checkmark if book is read
 function changeReadStatus(bookId) {
     const bookIndex = myLibrary.findIndex(book => book.id === bookId);
 
