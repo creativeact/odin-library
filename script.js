@@ -1,6 +1,3 @@
-// Declare myLibrary Array
-const myLibrary = [];
-
 // Declare relevant DOM elements
 const bookContainer = document.querySelector('.book-container');
 const addBookButton = document.querySelector('.add-book-button');
@@ -8,15 +5,27 @@ const addBookModal = document.querySelector('.modal-container');
 const addBookForm = document.querySelector('.add-book-form');
 const submitBookButton = document.querySelector('.submit-book-button');
 const closeModalButton = document.querySelector('.close-modal-button');
+const deleteBookButton = document.querySelector('.delete-book-button');
+const readBookToggle = document.querySelector('.read-book-toggle');
+
+// Declare myLibrary Array
+const myLibrary = [
+    { title: 'IQ84', author: 'Haruki Murakami', pages: 944, id: 0, },
+    { title: 'Shogun', author: 'James Clavell', pages: 1136, id: 1, }
+];
+
+// Initialize counter to reference for book ids
+let bookCounter = 2;
 
 // Book Object Constructor
 function Book(title, author, pages) {
     this.title = title;
     this.author = author;
     this.pages = pages;
+    this.id = bookCounter++;
     //this.read = read;
     this.info = function () {
-        return `${this.title}, ${this.author}, ${this.pages}`;
+        return `${this.title}, ${this.author}, ${this.pages}, ${this.id}`;
     }
 };
 
@@ -85,13 +94,53 @@ function createBookCard(book) {
     pages.textContent = book.pages;
     newDiv.appendChild(pages);
 
+     // Add read book button
+     const readBookToggle = document.createElement('button');
+     readBookToggle.classList.add('read-book-toggle');
+     readBookToggle.textContent = 'read';
+     newDiv.appendChild(readBookToggle);
+
+    // Add delete book button
+    const deleteBookButton = document.createElement('button');
+    deleteBookButton.classList.add('delete-book-button');
+    deleteBookButton.textContent = 'Delete';
+    deleteBookButton.setAttribute('data-id', book.id);
+    newDiv.appendChild(deleteBookButton);
+
     // Append new book card to book container
     bookContainer.appendChild(newDiv);
 };
 
-// Display all books in Library
-for (Books in myLibrary) {
-    displayBook(Book);
+// Display existing books in myLibrary
+myLibrary.forEach(book => createBookCard(book));
+
+// Handle delete button clicks
+bookContainer.addEventListener('click', function(event) {
+    if (event.target.classList.contains('delete-book-button')) {
+
+        // Retrieve the data-id associated with the button and convert to Int
+        const bookId = parseInt(event.target.getAttribute('data-id'), 10);
+
+        // Call deleteBook
+        deleteBook(bookId);
+    }
+});
+
+// Delete book
+function deleteBook(bookId) {
+    
+    // Find the index of the book within the myLibrary array
+    const bookIndex = myLibrary.findIndex(book => book.id === bookId);
+
+    // Remove book from library
+    myLibrary.splice(bookIndex, 1);
+
+    // Reduce book counter
+    bookCounter--;
+
+    // Remove book card
+    const bookCard = document.querySelector(`.book-card button[data-id='${bookId}']`).parentElement;
+        if (bookCard) {
+            bookContainer.removeChild(bookCard);
+        } 
 };
-
-
