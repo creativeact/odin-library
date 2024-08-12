@@ -5,7 +5,7 @@ const addBookModal = document.querySelector('.modal-container');
 const addBookForm = document.querySelector('.add-book-form');
 const submitBookButton = document.querySelector('.submit-book-button');
 const closeModalButton = document.querySelector('.close-modal-button');
-const deleteBookButton = document.querySelector('.delete-book-button');
+const removeBookButton = document.querySelector('.remove-book-button');
 const readBookToggle = document.querySelector('.read-book-toggle');
 
 // Declare myLibrary Array
@@ -91,21 +91,33 @@ function createBookCard(book) {
     // Add pages to book card
     const pages = document.createElement('p');
     pages.classList.add('pages');
-    pages.textContent = book.pages;
+    pages.textContent = `Pages: ${book.pages}`;
     newDiv.appendChild(pages);
 
-     // Add read book button
-     const readBookToggle = document.createElement('button');
-     readBookToggle.classList.add('read-book-toggle');
-     readBookToggle.textContent = 'read';
-     newDiv.appendChild(readBookToggle);
+     // Add read status checkbox
+     const readTitle = document.createElement('p');
+     readTitle.textContent = 'Read';
+     
+     const input = document.createElement('input');
+     input.setAttribute('type', 'checkbox');
+     input.setAttribute('id', 'read-status');
+     input.setAttribute('name', 'read-status');
+     input.classList.add('read-status');
 
-    // Add delete book button
-    const deleteBookButton = document.createElement('button');
-    deleteBookButton.classList.add('delete-book-button');
-    deleteBookButton.textContent = 'Delete';
-    deleteBookButton.setAttribute('data-id', book.id);
-    newDiv.appendChild(deleteBookButton);
+     const readStatusContainer = document.createElement('div');
+     readStatusContainer.classList.add('read-status-container');
+
+     readStatusContainer.appendChild(readTitle);
+     readStatusContainer.appendChild(input);
+     newDiv.appendChild(readStatusContainer);
+
+
+    // Add remove book button
+    const removeBookButton = document.createElement('button');
+    removeBookButton.classList.add('remove-book-button');
+    removeBookButton.textContent = 'Remove';
+    removeBookButton.setAttribute('data-id', book.id);
+    newDiv.appendChild(removeBookButton);
 
     // Append new book card to book container
     bookContainer.appendChild(newDiv);
@@ -116,18 +128,18 @@ myLibrary.forEach(book => createBookCard(book));
 
 // Handle delete button clicks
 bookContainer.addEventListener('click', function(event) {
-    if (event.target.classList.contains('delete-book-button')) {
+    if (event.target.classList.contains('remove-book-button')) {
 
         // Retrieve the data-id associated with the button and convert to Int
         const bookId = parseInt(event.target.getAttribute('data-id'), 10);
 
-        // Call deleteBook
-        deleteBook(bookId);
+        // Call removeBook
+        removeBook(bookId);
     }
 });
 
-// Delete book
-function deleteBook(bookId) {
+// Remove book
+function removeBook(bookId) {
     
     // Find the index of the book within the myLibrary array
     const bookIndex = myLibrary.findIndex(book => book.id === bookId);
