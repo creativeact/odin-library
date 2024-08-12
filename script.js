@@ -1,4 +1,3 @@
-// Declare relevant DOM elements
 const bookContainer = document.querySelector('.book-container');
 const addBookButton = document.querySelector('.add-book-button');
 const addBookModal = document.querySelector('.modal-container');
@@ -6,16 +5,18 @@ const addBookForm = document.querySelector('.add-book-form');
 const submitBookButton = document.querySelector('.submit-book-button');
 const closeModalButton = document.querySelector('.close-modal-button');
 const removeBookButton = document.querySelector('.remove-book-button');
-const readBookToggle = document.querySelector('.read-book-toggle');
 
-// Declare myLibrary Array
+// Initialize myLibrary Array
 const myLibrary = [
-    { title: 'IQ84', author: 'Haruki Murakami', pages: 944, id: 0, },
-    { title: 'Shogun', author: 'James Clavell', pages: 1136, id: 1, }
+    { title: 'IQ84', author: 'Haruki Murakami', pages: 944, id: 0, read: false },
+    { title: 'Shogun', author: 'James Clavell', pages: 1136, id: 1, read: false },
+    { title: 'Three Body Problem', author: 'Cixin Liu', pages: 426, id: 2, read: false },
+    { title: 'Snow Crash', author: 'Neal Stephenson', pages: 576, id: 3, read: false },
+    { title: 'Brothers Karamazov', author: 'Fyodor Dostoevsky', pages: 960, id: 4, read: false}
 ];
 
 // Initialize counter to reference for book ids
-let bookCounter = 2;
+let bookCounter = 5;
 
 // Book Object Constructor
 function Book(title, author, pages) {
@@ -23,9 +24,9 @@ function Book(title, author, pages) {
     this.author = author;
     this.pages = pages;
     this.id = bookCounter++;
-    //this.read = read;
+    this.read = false;
     this.info = function () {
-        return `${this.title}, ${this.author}, ${this.pages}, ${this.id}`;
+        return `${this.title}, ${this.author}, ${this.pages}, ${this.read}, ${this.id}`;
     }
 };
 
@@ -69,7 +70,7 @@ addBookForm.addEventListener('submit', function(event) {
     closeModal();
 });
 
-// Function to create remove book icon
+// Function to render remove book icon
 function renderTrashIcon() {
     const iconSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     const iconPath = document.createElementNS('http://www.w3.org/2000/svg','path');
@@ -83,48 +84,66 @@ function renderTrashIcon() {
     return iconSVG;
 };
 
+// Function to render checkmark icon
+function renderCheckmarkIcon() {
+    const iconSVG = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const iconPath = document.createElementNS('http://www.w3.org/2000/svg','path');
+
+    iconSVG.setAttribute('viewBox', '0 0 24 24');
+    iconSVG.setAttribute('display', 'none');
+    iconSVG.classList.add('checkmark-icon');
+
+    iconPath.setAttribute('d', 'M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z');
+
+    iconSVG.appendChild(iconPath);
+    return iconSVG;
+};
+
 // Function to create a new book card
 function createBookCard(book) {
 
-    // Create a new div with the class .book-card
+    // Create new book-card div
     const newDiv = document.createElement('div');
     newDiv.classList.add('book-card');
 
-    // Add title to book card
+    // Append title
     const title = document.createElement('h3');
     title.classList.add('title');
     title.textContent = book.title;
     newDiv.appendChild(title);
 
-    // Add author to book card
+    // Append author
     const author = document.createElement('h4');
     author.classList.add('author');
     author.textContent = book.author;
     newDiv.appendChild(author);
 
-    // Add pages to book card
+    // Append pages
     const pages = document.createElement('p');
     pages.classList.add('pages');
     pages.textContent = `Pages: ${book.pages}`;
     newDiv.appendChild(pages);
 
-     // Add read status checkbox
+     // Append read status checkbox
+     const readStatusContainer = document.createElement('div');
+     readStatusContainer.classList.add('read-status-container');
+
      const readTitle = document.createElement('p');
      readTitle.textContent = 'Read';
      
      const input = document.createElement('input');
      input.setAttribute('type', 'checkbox');
-     input.setAttribute('id', 'read-status');
      input.setAttribute('name', 'read-status');
      input.classList.add('read-status');
-
-     const readStatusContainer = document.createElement('div');
-     readStatusContainer.classList.add('read-status-container');
+     input.setAttribute('data-id', book.id);
 
      readStatusContainer.appendChild(readTitle);
      readStatusContainer.appendChild(input);
      newDiv.appendChild(readStatusContainer);
 
+    // Create card footer for remove book and read status icons
+    const cardFooter = document.createElement('div');
+    cardFooter.classList.add('card-footer');
 
     // Create remove book button
     const removeBookButton = document.createElement('button');
@@ -135,8 +154,16 @@ function createBookCard(book) {
     const trashIcon = renderTrashIcon();
     removeBookButton.appendChild(trashIcon);
 
-    // Append remove book button with icon
-    newDiv.appendChild(removeBookButton);
+    // Append remove book button with icon to card footer
+    cardFooter.appendChild(removeBookButton);
+
+    // Add checkmarkIcon
+    const checkMarkIcon = renderCheckmarkIcon();
+    checkMarkIcon.setAttribute('data-id', book.id);
+    cardFooter.appendChild(checkMarkIcon);
+
+    // Append card footer to the new div
+    newDiv.appendChild(cardFooter);
 
     // Append new book card to book container
     bookContainer.appendChild(newDiv);
@@ -162,7 +189,7 @@ bookContainer.addEventListener('click', function(event) {
 
 function removeBook(bookId) {
     
-    // Find the index of the book within the myLibrary array
+    // Find the index of the book in myLibrary
     const bookIndex = myLibrary.findIndex(book => book.id === bookId);
 
     // Remove book from library
@@ -176,5 +203,30 @@ function removeBook(bookId) {
         if (bookCard) {
             bookContainer.removeChild(bookCard);
         } 
+};
+
+// Handle read status slider clicks
+const readStatusSliders = document.querySelectorAll('.read-status');
+
+readStatusSliders.forEach(slider => {
+    slider.addEventListener('change', function(event) {
+        const bookId = parseInt(event.target.getAttribute('data-id'), 10);
+        changeReadStatus(bookId);
+    });
+});
+
+function changeReadStatus(bookId) {
+    const bookIndex = myLibrary.findIndex(book => book.id === bookId);
+
+    const checkMark = document.querySelector(`.checkmark-icon[data-id='${bookId}']`);
+
+    if (myLibrary[bookIndex].read === false) {
+        myLibrary[bookIndex].read = true;
+        checkMark.style.display = 'grid';
+    }
+    else if (myLibrary[bookIndex].read === true) {
+        myLibrary[bookIndex].read = false;
+        checkMark.style.display = 'none';
+    }
 };
 
