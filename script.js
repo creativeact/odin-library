@@ -36,12 +36,14 @@ function addBookToLibrary(book) {
 
 // Open addBookModal
 addBookButton.onclick = function () {
-    addBookModal.style.display = "grid";
+    addBookModal.style.opacity = "1";
+    addBookModal.style.zIndex = "1";
 };
 
 // Declare closeModal function to close addBookModal
 function closeModal() {
-    addBookModal.style.display = "none";
+    addBookModal.style.opacity = "0";
+    addBookModal.style.zIndex = "-1";
 };
 
 closeModalButton.onclick = function () {
@@ -90,6 +92,7 @@ function renderCheckmarkIcon() {
 
     iconSVG.setAttribute('viewBox', '0 0 24 24');
     iconSVG.setAttribute('display', 'none');
+    iconSVG.setAttribute('fill', 'green');
     iconSVG.classList.add('checkmark-icon');
 
     iconPath.setAttribute('d', 'M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M12 20C7.59 20 4 16.41 4 12S7.59 4 12 4 20 7.59 20 12 16.41 20 12 20M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z');
@@ -185,21 +188,27 @@ document.addEventListener('click', function(event) {
 });
 
 function removeBook(bookId) {
-    
-    // Find the index of the book in myLibrary
-    const bookIndex = myLibrary.findIndex(book => book.id === bookId);
 
-    // Remove book from library
-    myLibrary.splice(bookIndex, 1);
+    // Alert user to confirm book removal
+    const userConfirmed = confirm("Are you sure you want to remove this book?");
 
-    // Reduce book counter
-    bookCounter--;
+    if (userConfirmed) {
+        // Find the index of the book in myLibrary
+        const bookIndex = myLibrary.findIndex(book => book.id === bookId);
 
-    // Remove book card
-    const bookCard = document.querySelector(`.remove-book-button[data-id='${bookId}']`).parentElement.parentElement;
-        if (bookCard) {
-            bookContainer.removeChild(bookCard);
-        } 
+        // Remove book from library
+        myLibrary.splice(bookIndex, 1);
+
+        // Reduce book counter
+        bookCounter--;
+
+        // Remove book card
+        const bookCard = document.querySelector(`.remove-book-button[data-id='${bookId}']`).parentElement.parentElement;
+            if (bookCard) {
+                bookContainer.removeChild(bookCard);
+            } 
+    }
+    else return;
 };
 
 // Handle read status slider clicks
