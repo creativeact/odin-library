@@ -1,1 +1,1 @@
-[Live preview] (https://creativeact.github.io/odin-library/)
+[Live preview](https://creativeact.github.io/odin-library/)
