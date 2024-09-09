@@ -5,29 +5,34 @@ const addBookForm = document.querySelector('.add-book-form');
 const submitBookButton = document.querySelector('.submit-book-button');
 const closeModalButton = document.querySelector('.close-modal-button');
 
-// Initialize myLibrary Array
+// Initialize myLibrary
 const myLibrary = [
-    { title: 'IQ84', author: 'Haruki Murakami', pages: 944, id: 0, read: false },
-    { title: 'Shogun', author: 'James Clavell', pages: 1136, id: 1, read: false },
-    { title: 'Three Body Problem', author: 'Cixin Liu', pages: 426, id: 2, read: false },
-    { title: 'Snow Crash', author: 'Neal Stephenson', pages: 576, id: 3, read: false },
-    { title: 'Brothers Karamazov', author: 'Fyodor Dostoevsky', pages: 960, id: 4, read: false}
+    { title: 'IQ84', author: 'Haruki Murakami', pages: 944 },
+    { title: 'Shogun', author: 'James Clavell', pages: 1136 },
+    { title: 'Three Body Problem', author: 'Cixin Liu', pages: 426 },
+    { title: 'Snow Crash', author: 'Neal Stephenson', pages: 576 },
+    { title: 'Brothers Karamazov', author: 'Fyodor Dostoevsky', pages: 960 }
 ];
 
-// Initialize counter to reference for book ids
-let bookCounter = 5;
+// Book class constructor
+class Book {
+    static #bookCounter = 0;
 
-// Book Object Constructor
-function Book(title, author, pages) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.id = bookCounter++;
-    this.read = false;
-    this.info = function () {
-        return `${this.title}, ${this.author}, ${this.pages}, ${this.read}, ${this.id}`;
+    constructor(title, author, pages) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.id = Book.#bookCounter++;
+        this.read = false;
     }
-};
+
+    info() { return `Title: ${this.title}, Author: ${this.author}, Pages: ${this.pages}, Read: ${this.read ? 'Yes' : 'No'}, Id: ${this.id}` };
+}
+
+// Initial load of myLibrary
+myLibrary.forEach((book, index) => {
+    myLibrary[index] = new Book(book.title, book.author, book.pages);
+});
 
 // Declare addBookToLibrary function
 function addBookToLibrary(book) {
@@ -198,9 +203,6 @@ function removeBook(bookId) {
 
         // Remove book from library
         myLibrary.splice(bookIndex, 1);
-
-        // Reduce book counter
-        bookCounter--;
 
         // Remove book card
         const bookCard = document.querySelector(`.remove-book-button[data-id='${bookId}']`).parentElement.parentElement;
